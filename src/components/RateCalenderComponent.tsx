@@ -8,24 +8,10 @@ const RateCalenderComponent = () => {
       sx={{
         background: "#e2e8f0",
         padding: "20px",
+        minHeight: "100vh",
       }}
     >
-      <Box
-        component="div"
-        sx={{
-          p: 3,
-          backgroundColor: "white",
-          borderRadius: "8px",
-        }}
-      >
-        <Typography variant="h5" fontWeight="fontWeightBold">
-          Rate Calender
-        </Typography>
-
-        <Box component="div">
-          <DateRangePickerComponent />
-        </Box>
-      </Box>
+      <DateRangePickerComponent />
     </Container>
   );
 };

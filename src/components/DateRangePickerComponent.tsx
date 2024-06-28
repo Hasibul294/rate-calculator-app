@@ -9,6 +9,7 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { DateRange } from "@mui/x-date-pickers-pro/models";
 import { useQuery } from "@tanstack/react-query";
+import "../styles/globals.css";
 
 import {
   Box,
@@ -21,6 +22,7 @@ import {
   TableRow,
   Paper,
   Button,
+  Grid,
 } from "@mui/material";
 
 const fetchRates = async (start: string, end: string) => {
@@ -53,90 +55,321 @@ export default function DateRangePickerComponent() {
   }, [value, refetch]);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={["DateRangePicker"]}>
-        <DateRangePicker
-          value={value}
-          onChange={(newValue) => setValue(newValue)}
-          localeText={{ start: "Start Date", end: "End Date" }}
-        />
-      </DemoContainer>
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Error: {(error as Error).message}</div>}
-      {data &&
-        data.data.map((room, index: number) => (
-          <Box key={index} sx={{ mb: 4 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              {room.name}
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Room Status</TableCell>
-                    {room.inventory_calendar.map((inv, index: number) => (
-                      <TableCell
-                        key={index}
-                        sx={{
-                          backgroundColor: inv.status ? "green" : "red",
-                          color: "white",
-                          textAlign: "center",
-                        }}
-                      >
-                        {dayjs(inv.date).format("ddd, MMM D")}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Rooms to sell</TableCell>
-                    {room.inventory_calendar.map((inv, index: number) => (
-                      <TableCell key={index} sx={{ textAlign: "center" }}>
-                        {inv.available}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Net booked</TableCell>
-                    {room.inventory_calendar.map((inv, index: number) => (
-                      <TableCell key={index} sx={{ textAlign: "center" }}>
-                        {inv.booked}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Standard Rate</TableCell>
-                    {room.rate_plans[0]?.calendar.map((rate, index: number) => (
-                      <TableCell key={index} sx={{ textAlign: "center" }}>
-                        {rate.rate}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Min. length of stay</TableCell>
-                    {room.rate_plans[0]?.calendar.map((rate) => (
-                      <TableCell key={rate.id} sx={{ textAlign: "center" }}>
-                        {rate.min_length_of_stay || "-"}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Min. advance reservation</TableCell>
-                    {room.rate_plans[0]?.calendar.map((rate) => (
-                      <TableCell key={rate.id} sx={{ textAlign: "center" }}>
-                        {rate.reservation_deadline || "-"}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {/* <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-              BULK EDIT
-            </Button> */}
-          </Box>
-        ))}
-    </LocalizationProvider>
+    <Box component="div">
+      <Box
+        component="div"
+        maxWidth="md"
+        sx={{
+          p: 3,
+          backgroundColor: "white",
+          borderRadius: "8px",
+        }}
+      >
+        <Typography variant="h5" fontWeight="fontWeightBold">
+          Rate Calender
+        </Typography>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DateRangePicker"]}>
+            <DateRangePicker
+              value={value}
+              onChange={(newValue) => setValue(newValue)}
+              localeText={{ start: "Start Date", end: "End Date" }}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+      </Box>
+
+      {isLoading && <Typography variant="h4">Loading...</Typography>}
+      {error && (
+        <Typography variant="h5">Error: {(error as Error).message}</Typography>
+      )}
+      {data && (
+        // data.data[0].inventory_calendar.map((room: any, index: number) => (
+        <Box
+          component="div"
+          sx={{
+            mt: 3,
+            p: 3,
+            backgroundColor: "white",
+            borderRadius: "8px",
+          }}
+        >
+          <Grid container spacing={2}>
+            <Grid xs={2}>
+              <Box
+                sx={{
+                  borderBottom: "1px solid #e2e8f0",
+                  borderRight: "1px solid #e2e8f0",
+                  paddingY: "30.5px",
+                }}
+              ></Box>
+              {data.data.map((room: any, index: number) => (
+                <Box key={index}>
+                  <Typography variant="h6" sx={{ my: 2 }}>
+                    {room.name}
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Room Status
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Rooms to sell
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Net booked
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Standard Rate
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Min. length of stay
+                  </Typography>
+                  <Typography
+                    height={40}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="start"
+                    sx={{
+                      borderTop: "1px solid #e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      borderRight: "1px solid #e2e8f0",
+                    }}
+                  >
+                    Min. advance reservation
+                  </Typography>
+                </Box>
+              ))}
+
+              {}
+            </Grid>
+            <Grid xs={10} className="custom-scrollbar">
+              <Box display="flex" flexDirection="row">
+                {data.data[0].inventory_calendar.map(
+                  (inv: any, index: number) => (
+                    <Typography
+                      key={index}
+                      variant="caption"
+                      fontWeight="700"
+                      p={2}
+                      alignItems="end"
+                      sx={{
+                        borderTop: "1px solid #e2e8f0",
+                        borderBottom: "1px solid #e2e8f0",
+                        borderRight: "1px solid #e2e8f0",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {dayjs(inv.date).format("ddd, MMM D")}
+                    </Typography>
+                  )
+                )}
+              </Box>
+              <Box>
+                {data?.data.map((room: any, index: number) => (
+                  <Box key={index}>
+                    <Typography
+                      height={50}
+                      sx={{ marginTop: "8px" }}
+                    ></Typography>
+                    <Box display="flex" flexDirection="row">
+                      {/* {room.id} */}
+                      {/* ami asi */}
+                      {room?.inventory_calendar.map(
+                        (inv: any, index: number) => (
+                          <Box key={index}>
+                            <Typography
+                              width={100}
+                              height={40}
+                              textAlign="end"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="end"
+                              sx={{
+                                marginTop: "6px",
+                                borderTop: "1px solid #e2e8f0",
+                                borderBottom: "1px solid #e2e8f0",
+                                borderRight: "1px solid #e2e8f0",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {inv?.status === true ? "Open" : "Close"}
+                            </Typography>
+                            <Typography
+                              width={100}
+                              height={40}
+                              textAlign="end"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="end"
+                              sx={{
+                                borderTop: "1px solid #e2e8f0",
+                                borderBottom: "1px solid #e2e8f0",
+                                borderRight: "1px solid #e2e8f0",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {inv?.available ? inv.available : "-"}
+                            </Typography>
+                            <Typography
+                              width={100}
+                              height={40}
+                              textAlign="end"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="end"
+                              sx={{
+                                borderTop: "1px solid #e2e8f0",
+                                borderBottom: "1px solid #e2e8f0",
+                                borderRight: "1px solid #e2e8f0",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {inv?.booked}
+                            </Typography>
+                            <Typography>
+                              {room?.rate_plans.map(
+                                (plan: any, index: number) => (
+                                  <Box key={index}>
+                                    {plan.name === "Standerd Rate" && (
+                                      <Typography
+                                        width={100}
+                                        height={40}
+                                        textAlign="end"
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="end"
+                                        sx={{
+                                          borderTop: "1px solid #e2e8f0",
+                                          borderBottom: "1px solid #e2e8f0",
+                                          borderRight: "1px solid #e2e8f0",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {plan.calendar[index].rate}
+                                      </Typography>
+                                    )}
+                                  </Box>
+                                )
+                              )}
+                            </Typography>
+                            <Typography>
+                              {room?.rate_plans.map(
+                                (plan: any, index: number) => (
+                                  <Box key={index}>
+                                    {plan.name === "Standerd Rate" && (
+                                      <Typography
+                                        width={100}
+                                        height={40}
+                                        textAlign="end"
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="end"
+                                        sx={{
+                                          borderTop: "1px solid #e2e8f0",
+                                          borderBottom: "1px solid #e2e8f0",
+                                          borderRight: "1px solid #e2e8f0",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {
+                                          plan.calendar[index]
+                                            .min_length_of_stay
+                                        }
+                                      </Typography>
+                                    )}
+                                  </Box>
+                                )
+                              )}
+                            </Typography>
+                            <Typography>
+                              {room?.rate_plans.map(
+                                (plan: any, index: number) => (
+                                  <Box key={index}>
+                                    {plan.name === "Standerd Rate" && (
+                                      <Typography
+                                        width={100}
+                                        height={40}
+                                        textAlign="end"
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="end"
+                                        sx={{
+                                          borderTop: "1px solid #e2e8f0",
+                                          borderBottom: "1px solid #e2e8f0",
+                                          borderRight: "1px solid #e2e8f0",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {
+                                          plan.calendar[index]
+                                            .reservation_deadline
+                                        }
+                                      </Typography>
+                                    )}
+                                  </Box>
+                                )
+                              )}
+                            </Typography>
+                          </Box>
+                        )
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+    </Box>
   );
 }
