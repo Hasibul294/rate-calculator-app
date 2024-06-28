@@ -22,7 +22,7 @@ const RateCalenderComponent = () => {
           Rate Calender
         </Typography>
 
-        <Box component="div" maxWidth="sm">
+        <Box component="div">
           <DateRangePickerComponent />
         </Box>
       </Box>
