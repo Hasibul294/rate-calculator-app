@@ -9,21 +9,11 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { DateRange } from "@mui/x-date-pickers-pro/models";
 import { useQuery } from "@tanstack/react-query";
+import PersonIcon from "@mui/icons-material/Person";
+import CloseIcon from "@mui/icons-material/Close";
 import "../styles/globals.css";
 
-import {
-  Box,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 
 const fetchRates = async (start: string, end: string) => {
   const response = await fetch(
@@ -147,45 +137,71 @@ export default function DateRangePickerComponent() {
                   >
                     Net booked
                   </Typography>
-                  <Typography
-                    height={40}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="start"
-                    sx={{
-                      borderTop: "1px solid #e2e8f0",
-                      borderBottom: "1px solid #e2e8f0",
-                      borderRight: "1px solid #e2e8f0",
-                    }}
-                  >
-                    Standard Rate
-                  </Typography>
-                  <Typography
-                    height={40}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="start"
-                    sx={{
-                      borderTop: "1px solid #e2e8f0",
-                      borderBottom: "1px solid #e2e8f0",
-                      borderRight: "1px solid #e2e8f0",
-                    }}
-                  >
-                    Min. length of stay
-                  </Typography>
-                  <Typography
-                    height={40}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="start"
-                    sx={{
-                      borderTop: "1px solid #e2e8f0",
-                      borderBottom: "1px solid #e2e8f0",
-                      borderRight: "1px solid #e2e8f0",
-                    }}
-                  >
-                    Min. advance reservation
-                  </Typography>
+
+                  {room?.rate_plans.map((plan: any, index: number) => (
+                    <>
+                      <Typography
+                        height={80}
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="start"
+                        justifyContent="center"
+                        sx={{
+                          borderTop: "1px solid #e2e8f0",
+                          borderBottom: "1px solid #e2e8f0",
+                          borderRight: "1px solid #e2e8f0",
+                        }}
+                        key={index}
+                      >
+                        {plan?.name}
+                        <Box
+                          display="flex"
+                          flexDirection="row"
+                          alignItems="center"
+                          gap={1}
+                        >
+                          <PersonIcon
+                            fontSize="large"
+                            color="primary"
+                          ></PersonIcon>
+                          <CloseIcon fontSize="small" color="primary" />
+                          <Typography
+                            variant="caption"
+                            fontSize="18px"
+                            color="primary"
+                          >
+                            {room?.occupancy}
+                          </Typography>
+                        </Box>
+                      </Typography>
+                      <Typography
+                        height={40}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="start"
+                        sx={{
+                          borderTop: "1px solid #e2e8f0",
+                          borderBottom: "1px solid #e2e8f0",
+                          borderRight: "1px solid #e2e8f0",
+                        }}
+                      >
+                        Min. length of stay
+                      </Typography>
+                      <Typography
+                        height={40}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="start"
+                        sx={{
+                          borderTop: "1px solid #e2e8f0",
+                          borderBottom: "1px solid #e2e8f0",
+                          borderRight: "1px solid #e2e8f0",
+                        }}
+                      >
+                        Min. advance reservation
+                      </Typography>
+                    </>
+                  ))}
                 </Box>
               ))}
 
@@ -218,11 +234,9 @@ export default function DateRangePickerComponent() {
                   <Box key={index}>
                     <Typography
                       height={50}
-                      sx={{ marginTop: "8px" }}
+                      sx={{ marginTop: "8.5px" }}
                     ></Typography>
                     <Box display="flex" flexDirection="row">
-                      {/* {room.id} */}
-                      {/* ami asi */}
                       {room?.inventory_calendar.map(
                         (inv: any, index: number) => (
                           <Box key={index}>
@@ -235,10 +249,18 @@ export default function DateRangePickerComponent() {
                               justifyContent="end"
                               sx={{
                                 marginTop: "6px",
-                                borderTop: "1px solid #e2e8f0",
-                                borderBottom: "1px solid #e2e8f0",
-                                borderRight: "1px solid #e2e8f0",
+                                borderTop: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderBottom: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderRight: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
                                 whiteSpace: "nowrap",
+                                backgroundColor: inv.status ? "green" : "red",
+                                color: "white",
                               }}
                             >
                               {inv?.status === true ? "Open" : "Close"}
@@ -251,10 +273,18 @@ export default function DateRangePickerComponent() {
                               alignItems="center"
                               justifyContent="end"
                               sx={{
-                                borderTop: "1px solid #e2e8f0",
-                                borderBottom: "1px solid #e2e8f0",
-                                borderRight: "1px solid #e2e8f0",
+                                borderTop: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderBottom: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderRight: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
                                 whiteSpace: "nowrap",
+                                backgroundColor: inv.status ? "white" : "red",
+                                color: inv.status ? "black" : "white",
                               }}
                             >
                               {inv?.available ? inv.available : "-"}
@@ -267,9 +297,17 @@ export default function DateRangePickerComponent() {
                               alignItems="center"
                               justifyContent="end"
                               sx={{
-                                borderTop: "1px solid #e2e8f0",
-                                borderBottom: "1px solid #e2e8f0",
-                                borderRight: "1px solid #e2e8f0",
+                                backgroundColor: inv.status ? "white" : "red",
+                                color: inv.status ? "black" : "white",
+                                borderTop: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderBottom: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
+                                borderRight: inv.status
+                                  ? "1px solid #e2e8f0"
+                                  : "1px solid red",
                                 whiteSpace: "nowrap",
                               }}
                             >
@@ -279,82 +317,87 @@ export default function DateRangePickerComponent() {
                               {room?.rate_plans.map(
                                 (plan: any, index: number) => (
                                   <Box key={index}>
-                                    {plan.name === "Standerd Rate" && (
-                                      <Typography
-                                        width={100}
-                                        height={40}
-                                        textAlign="end"
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="end"
-                                        sx={{
-                                          borderTop: "1px solid #e2e8f0",
-                                          borderBottom: "1px solid #e2e8f0",
-                                          borderRight: "1px solid #e2e8f0",
-                                          whiteSpace: "nowrap",
-                                        }}
-                                      >
-                                        {plan.calendar[index].rate}
-                                      </Typography>
-                                    )}
-                                  </Box>
-                                )
-                              )}
-                            </Typography>
-                            <Typography>
-                              {room?.rate_plans.map(
-                                (plan: any, index: number) => (
-                                  <Box key={index}>
-                                    {plan.name === "Standerd Rate" && (
-                                      <Typography
-                                        width={100}
-                                        height={40}
-                                        textAlign="end"
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="end"
-                                        sx={{
-                                          borderTop: "1px solid #e2e8f0",
-                                          borderBottom: "1px solid #e2e8f0",
-                                          borderRight: "1px solid #e2e8f0",
-                                          whiteSpace: "nowrap",
-                                        }}
-                                      >
-                                        {
-                                          plan.calendar[index]
-                                            .min_length_of_stay
-                                        }
-                                      </Typography>
-                                    )}
-                                  </Box>
-                                )
-                              )}
-                            </Typography>
-                            <Typography>
-                              {room?.rate_plans.map(
-                                (plan: any, index: number) => (
-                                  <Box key={index}>
-                                    {plan.name === "Standerd Rate" && (
-                                      <Typography
-                                        width={100}
-                                        height={40}
-                                        textAlign="end"
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="end"
-                                        sx={{
-                                          borderTop: "1px solid #e2e8f0",
-                                          borderBottom: "1px solid #e2e8f0",
-                                          borderRight: "1px solid #e2e8f0",
-                                          whiteSpace: "nowrap",
-                                        }}
-                                      >
-                                        {
-                                          plan.calendar[index]
-                                            .reservation_deadline
-                                        }
-                                      </Typography>
-                                    )}
+                                    <Typography
+                                      width={100}
+                                      height={80}
+                                      textAlign="end"
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="end"
+                                      sx={{
+                                        backgroundColor: inv.status
+                                          ? "white"
+                                          : "red",
+                                        color: inv.status ? "black" : "white",
+                                        borderTop: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderBottom: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderRight: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      {plan.calendar[index].rate}
+                                    </Typography>
+                                    <Typography
+                                      width={100}
+                                      height={40}
+                                      textAlign="end"
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="end"
+                                      sx={{
+                                        backgroundColor: inv.status
+                                          ? "white"
+                                          : "red",
+                                        color: inv.status ? "black" : "white",
+                                        borderTop: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderBottom: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderRight: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      {plan.calendar[index].min_length_of_stay}
+                                    </Typography>
+                                    <Typography
+                                      width={100}
+                                      height={40}
+                                      textAlign="end"
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="end"
+                                      sx={{
+                                        backgroundColor: inv.status
+                                          ? "white"
+                                          : "red",
+                                        color: inv.status ? "black" : "white",
+                                        borderTop: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderBottom: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        borderRight: inv.status
+                                          ? "1px solid #e2e8f0"
+                                          : "1px solid red",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      {
+                                        plan.calendar[index]
+                                          .reservation_deadline
+                                      }
+                                    </Typography>
                                   </Box>
                                 )
                               )}
