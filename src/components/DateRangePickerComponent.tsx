@@ -85,7 +85,7 @@ export default function DateRangePickerComponent() {
           }}
         >
           <Grid container spacing={2}>
-            <Grid xs={2}>
+            <Grid xs={4} sm={3} md={2}>
               <Box
                 sx={{
                   borderBottom: "1px solid #e2e8f0",
@@ -95,7 +95,14 @@ export default function DateRangePickerComponent() {
               ></Box>
               {data.data.map((room: any, index: number) => (
                 <Box key={index}>
-                  <Typography variant="h6" sx={{ my: 2 }}>
+                  <Typography
+                    variant="h6"
+                    whiteSpace="nowrap"
+                    sx={{
+                      my: { xs: 1, sm: 2 },
+                      fontSize: { xs: "24px", sm: "28px", md: "32px" },
+                    }}
+                  >
                     {room.name}
                   </Typography>
                   <Typography
@@ -161,7 +168,13 @@ export default function DateRangePickerComponent() {
                           gap={1}
                         >
                           <PersonIcon
-                            fontSize="large"
+                            sx={{
+                              fontSize: {
+                                xs: "24px",
+                                sm: "30px",
+                                md: "34px",
+                              },
+                            }}
                             color="primary"
                           ></PersonIcon>
                           <CloseIcon fontSize="small" color="primary" />
@@ -207,7 +220,7 @@ export default function DateRangePickerComponent() {
 
               {}
             </Grid>
-            <Grid xs={10} className="custom-scrollbar">
+            <Grid xs={8} sm={9} md={10} className="custom-scrollbar">
               <Box display="flex" flexDirection="row">
                 {data.data[0].inventory_calendar.map(
                   (inv: any, index: number) => (
@@ -234,7 +247,9 @@ export default function DateRangePickerComponent() {
                   <Box key={index}>
                     <Typography
                       height={50}
-                      sx={{ marginTop: "8.5px" }}
+                      sx={{
+                        marginTop: { xs: "0px", sm: "21.5px", md: "27.5px" },
+                      }}
                     ></Typography>
                     <Box display="flex" flexDirection="row">
                       {room?.inventory_calendar.map(
